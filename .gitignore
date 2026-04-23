@@ -2,3 +2,6 @@ mic_log.txt
 __pycache__/
 *.pyc
 .env
+build/
+dist/
+*.spec.bak
