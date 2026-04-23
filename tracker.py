@@ -23,7 +23,7 @@ from comtypes import CLSCTX_ALL
 
 # ── Version ───────────────────────────────────────────────────────────────────
 APP_VERSION = "1.0.0"
-APP_NAME = "Mic Volume Tracker"
+APP_NAME = "Studio Flow"
 
 # ── Config ────────────────────────────────────────────────────────────────────
 POLL_INTERVAL = 0.5          # seconds between volume checks
@@ -44,7 +44,7 @@ _APP_DIR = (
 if _IS_FROZEN:
     _USER_DIR = os.path.join(
         os.environ.get("LOCALAPPDATA", os.path.expanduser("~")),
-        "MicVolumeTracker",
+        "StudioFlow",
     )
     os.makedirs(_USER_DIR, exist_ok=True)
 else:
@@ -1485,13 +1485,13 @@ def main():
     initial_vol = monitor.last_vol if monitor.last_vol is not None else 0
     overlay.root.after(0, overlay.update, initial_vol, monitor.locked)
 
-    print(f"🎤 Mic Volume Tracker started. Current mic volume: {initial_vol}%")
+    print(f"🎬 Studio Flow started. Current mic volume: {initial_vol}%")
     print(f"📄 Logging changes to: {LOG_FILE}")
     print("Watching for changes... (right-click tray icon to exit)\n")
 
     icon_image = make_icon_image(initial_vol)
     icon = pystray.Icon(
-        "mic_tracker",
+        "studio_flow",
         icon_image,
         f"Mic: {initial_vol}%",
         menu=build_menu(monitor),
