@@ -2,7 +2,7 @@
 # Run ONCE on the laptop (as your normal user, no admin needed).
 # Creates a scheduled task that maps E: every 2 minutes and at logon.
 
-$TaskName   = "Map Video Drive (E:)"
+$TaskName   = "MapVideoDrive"
 $ScriptPath = "$PSScriptRoot\map-video-drive.ps1"
 
 if (-not (Test-Path $ScriptPath)) {
@@ -32,7 +32,7 @@ Register-ScheduledTask `
     -Settings $settings `
     -Force | Out-Null
 
-Write-Host "Task registered: '$TaskName'"
+Write-Host "Task registered: 'MapVideoDrive'"
 Write-Host "It will run at logon and every 2 minutes."
 Write-Host ""
 Write-Host "NEXT STEP - store home PC credentials (run once in Command Prompt):"
