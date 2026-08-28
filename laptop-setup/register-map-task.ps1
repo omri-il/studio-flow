@@ -25,11 +25,21 @@ $settings = New-ScheduledTaskSettingsSet `
     -DontStopIfGoingOnBatteries `
     -StartWhenAvailable
 
+# S4U principal: run under Omri's account with no interactive session, so
+# PowerShell does not flash a console window every 2 minutes. (Lesson from the
+# Remote-HDD project - the default "run only when the user is logged on"
+# principal pops a visible window despite -WindowStyle Hidden.)
+$principal = New-ScheduledTaskPrincipal `
+    -UserId "$env:USERDOMAIN\$env:USERNAME" `
+    -LogonType S4U `
+    -RunLevel Limited
+
 Register-ScheduledTask `
     -TaskName $TaskName `
     -Action $action `
     -Trigger @($logon, $repeating) `
     -Settings $settings `
+    -Principal $principal `
     -Force | Out-Null
 
 Write-Host "Task registered: 'MapVideoDrive'"
@@ -37,8 +47,7 @@ Write-Host "It will run at logon and every 2 minutes."
 Write-Host ""
 Write-Host "NEXT STEP - store home PC credentials (run once in Command Prompt):"
 Write-Host ""
-Write-Host "  If home PC uses a Microsoft account (most Windows 11):"
-Write-Host "    cmdkey /add:100.111.186.101 /user:MicrosoftAccount\your.email@example.com /pass:YOUR_PASSWORD"
+Write-Host "    cmdkey /add:100.111.186.101 /user:DESKTOP-7HQM8GO\netshare /pass:YOUR_PASSWORD"
 Write-Host ""
-Write-Host "  If home PC uses a local account:"
-Write-Host "    cmdkey /add:100.111.186.101 /user:DESKTOP-7HQM8GO\omrii /pass:YOUR_PASSWORD"
+Write-Host "'netshare' is the limited account the home PC's Remote-HDD setup created"
+Write-Host "for the DriveE / DriveD shares; its password lives in that project's notes."

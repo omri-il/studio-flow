@@ -1,9 +1,12 @@
-# map-video-drive.ps1
+﻿# map-video-drive.ps1
 # Run automatically by scheduled task — maps home PC E: drive as E: on this laptop.
-# Log: C:\Users\omrii\Scripts\map-video-drive.log
+# Log: map-video-drive.log, written next to this script.
 
 $HomePcIp   = "100.111.186.101"
-$SharePath  = "\\$HomePcIp\e"
+# The named share published by the Remote-HDD project (granted to the limited
+# `netshare` account). NOT the \\IP\e admin share - that one requires signing in
+# as an administrator of the home PC.
+$SharePath  = "\\$HomePcIp\DriveE"
 $DriveLetter = "E"
 $LogFile    = "$PSScriptRoot\map-video-drive.log"
 $MaxLogLines = 50
