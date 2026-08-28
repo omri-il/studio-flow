@@ -16,8 +16,9 @@ foreach ($required in @($ScriptPath, $VbsPath)) {
 
 # Launch through wscript, not powershell.exe directly: powershell flashes a
 # console for a moment every 2 minutes even with -WindowStyle Hidden, while
-# wscript has no console of its own. See map-video-drive-hidden.vbs for why the
-# task deliberately keeps an ordinary interactive logon instead of S4U.
+# wscript has no console of its own. That keeps this silent without the elevated
+# shell an S4U principal would need (Remote-HDD's mapper takes the S4U route and
+# elevates via UAC; this one deliberately needs no admin at all).
 $TaskCommand = "wscript.exe //B //Nologo `"$VbsPath`""
 
 $isAdmin = ([Security.Principal.WindowsPrincipal] `

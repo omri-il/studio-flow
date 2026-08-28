@@ -1,14 +1,12 @@
 ' map-video-drive-hidden.vbs
 ' Launches map-video-drive.ps1 with no visible window.
 '
-' Why a VBS wrapper at all: the scheduled task has to run under an ordinary
-' interactive logon, because (a) registering an S4U task needs an elevated
-' shell, and (b) an S4U token carries no network credentials and cannot unlock
-' the user's DPAPI-protected Credential Manager - so `net use` would not see the
-' stored netshare credential, which is the whole point of the task.
-' An interactive task keeps the credential, but powershell.exe still flashes a
-' console for a moment every 2 minutes even with -WindowStyle Hidden.
-' wscript.exe has no console of its own, so Run(..., 0, False) is truly silent.
+' Why a VBS wrapper at all: the Remote-HDD project hides its own every-2-minutes
+' mapper with an S4U task, but registering one requires an elevated shell (so
+' does any at-logon trigger). This task is registered by an ordinary user, so it
+' runs on an interactive logon - and powershell.exe flashes a console for a
+' moment every cycle even with -WindowStyle Hidden. wscript.exe has no console
+' of its own, so Run(..., 0, False) is truly silent without any elevation.
 ' Same pattern as the DaVinci dashboard's start_dashboard_hidden.vbs.
 
 Dim shell, fso, scriptDir, ps1
